@@ -11,7 +11,14 @@ class AURA_API AAuraCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(EditAnywhere, Category = Combat)
+	TObjectPtr<USkeletalMeshComponent> Weapon;
+
 public:
 	// Sets default values for this character's properties
 	AAuraCharacterBase();
+
+protected:
+	virtual void BeginPlay() override;
 };
