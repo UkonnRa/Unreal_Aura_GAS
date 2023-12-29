@@ -3,28 +3,39 @@
 
 #include "Characters/AuraEnemy.h"
 
+constexpr int32 GHighlightDepthRed = 250;
 
 // Sets default values
 AAuraEnemy::AAuraEnemy()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 }
 
-// Called when the game starts or when spawned
-void AAuraEnemy::BeginPlay()
+void AAuraEnemy::Tick(float DeltaSeconds)
 {
-	Super::BeginPlay();
+	Super::Tick(DeltaSeconds);
 }
 
-// Called every frame
-void AAuraEnemy::Tick(float DeltaTime)
+void AAuraEnemy::Highlight()
 {
-	Super::Tick(DeltaTime);
+	bIsHighlighting = true;
+
+	Weapon->SetRenderCustomDepth(true);
+	Weapon->SetCustomDepthStencilValue(GHighlightDepthRed);
+
+	GetMesh()->SetRenderCustomDepth(true);
+	GetMesh()->SetCustomDepthStencilValue(GHighlightDepthRed);
 }
 
-// Called to bind functionality to input
-void AAuraEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AAuraEnemy::UnHighlight()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	bIsHighlighting = false;
+
+	Weapon->SetRenderCustomDepth(false);
+	Weapon->SetCustomDepthStencilValue(0);
+
+	GetMesh()->SetRenderCustomDepth(false);
+	GetMesh()->SetCustomDepthStencilValue(0);
 }

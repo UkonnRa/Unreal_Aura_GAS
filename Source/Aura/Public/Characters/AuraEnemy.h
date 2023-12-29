@@ -4,25 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "Characters/AuraCharacterBase.h"
+#include "Interaction/HighlightInterface.h"
 #include "AuraEnemy.generated.h"
 
 UCLASS()
-class AURA_API AAuraEnemy : public AAuraCharacterBase
+class AURA_API AAuraEnemy : public AAuraCharacterBase, public IHighlightInterface
 {
 	GENERATED_BODY()
+
+protected:
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	bool bIsHighlighting;
 
 public:
 	// Sets default values for this character's properties
 	AAuraEnemy();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void Highlight() override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	virtual void UnHighlight() override;
 };

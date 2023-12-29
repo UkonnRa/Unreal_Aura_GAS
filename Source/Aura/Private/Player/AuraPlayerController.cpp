@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Interaction/HighlightInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -38,6 +39,13 @@ void AAuraPlayerController::SetupInputComponent()
 	EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 }
 
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
+}
+
 void AAuraPlayerController::Move(const FInputActionValue& Value)
 {
 	// TODO: Need to understand this part
@@ -51,5 +59,28 @@ void AAuraPlayerController::Move(const FInputActionValue& Value)
 	{
 		PawnValue->AddMovementInput(ForwardDirection, Delta.Y);
 		PawnValue->AddMovementInput(RightDirection, Delta.X);
+	}
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+
+	if (CursorHit.bBlockingHit)
+	{
+		const auto HitActor = Cast<IHighlightInterface>(CursorHit.GetActor());
+		LastHitActor = CurrentHitActor;
+		CurrentHitActor = HitActor;
+
+		if (CurrentHitActor && LastHitActor != CurrentHitActor)
+		{
+			CurrentHitActor->Highlight();
+		}
+
+		if (LastHitActor && LastHitActor != CurrentHitActor)
+		{
+			LastHitActor->UnHighlight();
+		}
 	}
 }
