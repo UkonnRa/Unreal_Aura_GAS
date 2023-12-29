@@ -20,7 +20,7 @@ void AAuraPlayerController::BeginPlay()
 	check(Subsystem);
 	Subsystem->AddMappingContext(InputMappingContext, 0);
 
-	
+
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Default;
 
@@ -42,7 +42,6 @@ void AAuraPlayerController::Move(const FInputActionValue& Value)
 {
 	// TODO: Need to understand this part
 	const auto Delta = Value.Get<FVector2D>();
-	UE_LOG(LogTemp, Warning, TEXT("Control Rotation: %s"), *ControlRotation.ToString());
 
 	const auto Matrix = FRotationMatrix({0.0f, ControlRotation.Yaw, 0.0f});
 	const auto ForwardDirection = Matrix.GetUnitAxis(EAxis::X);
