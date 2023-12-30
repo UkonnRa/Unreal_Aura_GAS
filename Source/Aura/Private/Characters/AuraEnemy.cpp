@@ -3,19 +3,20 @@
 
 #include "Characters/AuraEnemy.h"
 
+#include "Ability/AuraAbilitySystemComponent.h"
+#include "Ability/AuraAttributeSet.h"
+
 constexpr int32 GHighlightDepthRed = 250;
 
 // Sets default values
 AAuraEnemy::AAuraEnemy()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
-}
 
-void AAuraEnemy::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
+	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
 
 void AAuraEnemy::Highlight()

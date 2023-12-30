@@ -21,8 +21,6 @@ public:
 	AAuraEnemy();
 
 protected:
-	virtual void Tick(float DeltaSeconds) override;
-
 	virtual void Highlight() override;
 
 	virtual void UnHighlight() override;
