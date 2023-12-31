@@ -22,22 +22,22 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Basic", ReplicatedUsing=OnRep_Health)
 	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Basic", ReplicatedUsing=OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Basic", ReplicatedUsing=OnRep_Mana)
 	FGameplayAttributeData Mana;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Basic", ReplicatedUsing=OnRep_MaxMana)
 	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 
 public:
 	UAuraAttributeSet();
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
 
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
