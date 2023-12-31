@@ -3,10 +3,12 @@
 
 #include "Characters/AuraCharacter.h"
 
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/AuraPlayerState.h"
 
 
 // Sets default values
@@ -46,8 +48,28 @@ void AAuraCharacter::BeginPlay()
 	Super::BeginPlay();
 }
 
+void AAuraCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilityInfo();
+}
+
+void AAuraCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilityInfo();
+}
+
+void AAuraCharacter::InitAbilityInfo()
+{
+	const auto State = GetPlayerStateChecked<AAuraPlayerState>();
+	AbilitySystemComponent = State->GetAbilitySystemComponent();
+	AbilitySystemComponent->InitAbilityActorInfo(State, this);
+	AttributeSet = State->GetAttributeSet();
+}
+
 // Called every frame
-void AAuraCharacter::Tick(float DeltaTime)
+void AAuraCharacter::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }

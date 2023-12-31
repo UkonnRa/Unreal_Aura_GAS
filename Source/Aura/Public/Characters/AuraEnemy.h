@@ -21,6 +21,8 @@ public:
 	AAuraEnemy();
 
 protected:
+	virtual void BeginPlay() override;
+
 	virtual void Highlight() override;
 
 	virtual void UnHighlight() override;

@@ -27,7 +27,6 @@ protected:
 public:
 	AAuraPlayerState();
 
-protected:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UAttributeSet* GetAttributeSet() const;
