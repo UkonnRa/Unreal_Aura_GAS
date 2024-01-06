@@ -49,5 +49,4 @@ private:
 	void OnManaAttributeChanged(const FOnAttributeChangeData& Data) const;
 
 	void OnMaxManaAttributeChanged(const FOnAttributeChangeData& Data) const;
-
 };

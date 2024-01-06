@@ -37,8 +37,17 @@ void AAuraEffectActor::OnOverlap(
 		// TODO: Demo only, use Gameplay Effect to change values
 		if (const auto AttributeSet = Cast<UAuraAttributeSet>(ASC->GetAttributeSet(UAuraAttributeSet::StaticClass())))
 		{
-			const auto OldValue = AttributeSet->GetHealth();
-			const_cast<UAuraAttributeSet*>(AttributeSet)->SetHealth(OldValue + 10.0f);
+			const auto MutableSet = const_cast<UAuraAttributeSet*>(AttributeSet);
+			if (IsHealth)
+			{
+				const auto OldValue = MutableSet->GetHealth();
+				MutableSet->SetHealth(OldValue + 10.0f);
+			}
+			else
+			{
+				const auto OldValue = MutableSet->GetMana();
+				MutableSet->SetMana(OldValue + 10.0f);
+			}
 			Destroy();
 		}
 	}

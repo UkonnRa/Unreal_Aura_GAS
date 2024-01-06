@@ -5,16 +5,20 @@
 #include "CoreMinimal.h"
 #include "AuraEffectActor.generated.h"
 
+class UAuraAttributeSet;
 class USphereComponent;
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract, BlueprintType)
 class AURA_API AAuraEffectActor : public AActor
 {
 	GENERATED_BODY()
 
 private:
+	UPROPERTY(EditDefaultsOnly)
+	bool IsHealth;
+
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
 
