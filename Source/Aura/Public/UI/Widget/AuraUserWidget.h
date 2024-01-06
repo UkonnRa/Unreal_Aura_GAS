@@ -19,7 +19,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetController(UAuraWidgetController* InController);
-	
+
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnWidgetControllerSet();

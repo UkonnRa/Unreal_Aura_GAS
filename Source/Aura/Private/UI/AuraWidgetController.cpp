@@ -2,3 +2,11 @@
 
 
 #include "UI/AuraWidgetController.h"
+
+void UAuraWidgetController::SetParams(const FAuraWidgetControllerParams& Params)
+{
+	PlayerController = Params.PlayerController;
+	PlayerState = Params.PlayerState;
+	AbilitySystemComponent = Params.AbilitySystemComponent;
+	AttributeSet = Params.AttributeSet;
+}

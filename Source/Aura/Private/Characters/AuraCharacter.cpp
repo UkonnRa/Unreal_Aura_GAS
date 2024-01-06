@@ -8,7 +8,9 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
+#include "UI/AuraHUD.h"
 
 
 // Sets default values
@@ -66,6 +68,15 @@ void AAuraCharacter::InitAbilityInfo()
 	AbilitySystemComponent = State->GetAbilitySystemComponent();
 	AbilitySystemComponent->InitAbilityActorInfo(State, this);
 	AttributeSet = State->GetAttributeSet();
+	//
+	// if (const auto PC = GetController<AAuraPlayerController>())
+	// {
+	// 	if (const auto HUD = PC->GetHUD<AAuraHUD>())
+	// 	{
+	// 		const auto OverlayController = HUD->GetOverlayController();
+	// 		UE_LOG(LogTemp, Warning, TEXT("Get OverlayController: %p"), OverlayController);
+	// 	}
+	// }
 }
 
 // Called every frame

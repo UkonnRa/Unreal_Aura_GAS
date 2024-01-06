@@ -6,16 +6,45 @@
 #include "UObject/Object.h"
 #include "AuraWidgetController.generated.h"
 
-class UAuraAttributeSet;
 class UAuraAbilitySystemComponent;
 class AAuraPlayerState;
 class AAuraPlayerController;
 class UAttributeSet;
 class UAbilitySystemComponent;
-/**
- * 
- */
-UCLASS()
+
+USTRUCT(BlueprintType)
+struct FAuraWidgetControllerParams
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
+	TObjectPtr<AAuraPlayerController> PlayerController;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
+	TObjectPtr<AAuraPlayerState> PlayerState;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
+	TObjectPtr<UAuraAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite)
+	TObjectPtr<UAttributeSet> AttributeSet;
+
+	FAuraWidgetControllerParams(AAuraPlayerController* PlayerController,
+	                            AAuraPlayerState* PlayerState,
+	                            UAuraAbilitySystemComponent* AbilitySystemComponent,
+	                            UAttributeSet* AttributeSet)
+		: PlayerController(PlayerController),
+		  PlayerState(PlayerState),
+		  AbilitySystemComponent(AbilitySystemComponent),
+		  AttributeSet(AttributeSet)
+	{
+	}
+
+	FAuraWidgetControllerParams() = default;
+};
+
+
+UCLASS(Abstract)
 class AURA_API UAuraWidgetController : public UObject
 {
 	GENERATED_BODY()
@@ -31,5 +60,9 @@ protected:
 	TObjectPtr<UAuraAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
-	TObjectPtr<UAuraAttributeSet> AttributeSet;
+	TObjectPtr<UAttributeSet> AttributeSet;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetParams(const FAuraWidgetControllerParams& Params);
 };
