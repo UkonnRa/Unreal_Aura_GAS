@@ -25,10 +25,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category=Input)
 	TObjectPtr<UInputAction> MoveAction;
 
-	UPROPERTY(VisibleInstanceOnly, Category="Highlight|Debug")
 	TObjectPtr<IHighlightInterface> LastHitActor;
 
-	UPROPERTY(VisibleInstanceOnly, Category="Highlight|Debug")
 	TObjectPtr<IHighlightInterface> CurrentHitActor;
 
 public:

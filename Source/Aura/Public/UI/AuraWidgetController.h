@@ -65,4 +65,8 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable)
 	void SetParams(const FAuraWidgetControllerParams& Params);
+
+	virtual void BroadcastInitialValues();
+
+	virtual void BindAttributeCallbacks();
 };

@@ -19,7 +19,6 @@ void AAuraHUD::BeginPlay()
 	{
 		OverlayWidget = CreateWidget<UAuraUserWidget>(World, OverlayWidgetClass);
 		InitOverlayController();
-
 		OverlayWidget->AddToViewport();
 	}
 }
@@ -55,9 +54,13 @@ void AAuraHUD::InitOverlayController()
 				AttributeSet
 			});
 			UE_LOG(LogTemp, Warning, TEXT("OverlayWidgetController Params are set"));
+			OverlayWidgetController->BindAttributeCallbacks();
 
 			OverlayWidget->SetWidgetController(OverlayWidgetController);
 			UE_LOG(LogTemp, Warning, TEXT("OverlayWidget Controller is set"));
+
+
+			OverlayWidgetController->BroadcastInitialValues();
 		}
 	}
 }

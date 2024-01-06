@@ -38,7 +38,7 @@ void AAuraEffectActor::OnOverlap(
 		if (const auto AttributeSet = Cast<UAuraAttributeSet>(ASC->GetAttributeSet(UAuraAttributeSet::StaticClass())))
 		{
 			const auto OldValue = AttributeSet->GetHealth();
-			const_cast<UAuraAttributeSet*>(AttributeSet)->SetHealth(OldValue + 50.0f);
+			const_cast<UAuraAttributeSet*>(AttributeSet)->SetHealth(OldValue + 10.0f);
 			Destroy();
 		}
 	}

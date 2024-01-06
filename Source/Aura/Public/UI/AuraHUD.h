@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "AuraHUD.generated.h"
 
+class UAuraWidgetController;
 class UAuraOverlayWidgetController;
 class UAuraUserWidget;
 /**
@@ -27,11 +28,11 @@ private:
 	TObjectPtr<UAuraOverlayWidgetController> OverlayWidgetController;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UAuraOverlayWidgetController> OverlayWidgetControllerClass;
+	TSubclassOf<UAuraWidgetController> OverlayWidgetControllerClass;
 
 protected:
 	virtual void BeginPlay() override;
-	
+
 public:
 	UFUNCTION(BlueprintCallable)
 	UAuraOverlayWidgetController* GetOverlayController();
