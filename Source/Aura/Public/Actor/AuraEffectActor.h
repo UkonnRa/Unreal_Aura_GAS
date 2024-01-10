@@ -5,8 +5,7 @@
 #include "CoreMinimal.h"
 #include "AuraEffectActor.generated.h"
 
-class UAuraAttributeSet;
-class USphereComponent;
+class UGameplayEffect;
 /**
  * 
  */
@@ -15,29 +14,15 @@ class AURA_API AAuraEffectActor : public AActor
 {
 	GENERATED_BODY()
 
-private:
-	UPROPERTY(EditDefaultsOnly)
-	bool IsHealth;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
-
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> StaticMesh;
-
 public:
 	AAuraEffectActor();
 
 protected:
 	virtual void BeginPlay() override;
 
-private:
-	UFUNCTION()
-	virtual void OnOverlap(
-		UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Applied Effects")
+	TSubclassOf<UGameplayEffect> InstantEffectClass;
 
-	UFUNCTION()
-	virtual void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	                        UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffect(AActor* TargetActor, TSubclassOf<UGameplayEffect> EffectClass);
 };

@@ -3,6 +3,7 @@
 
 #include "Actor/AuraEffectActor.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
 #include "Ability/AuraAttributeSet.h"
@@ -12,48 +13,22 @@ AAuraEffectActor::AAuraEffectActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("StaticMesh");
-	SetRootComponent(StaticMesh);
-
-	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
-	Sphere->SetupAttachment(RootComponent);
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 }
 
 void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraEffectActor::OnOverlap);
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &AAuraEffectActor::EndOverlap);
 }
 
-void AAuraEffectActor::OnOverlap(
-	UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
-	bool bFromSweep, const FHitResult& SweepResult)
+void AAuraEffectActor::ApplyEffect(AActor* TargetActor, const TSubclassOf<UGameplayEffect> EffectClass)
 {
-	if (const auto Interface = Cast<IAbilitySystemInterface>(OtherActor))
+	if (const auto ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
 	{
-		const auto ASC = Interface->GetAbilitySystemComponent();
-		// TODO: Demo only, use Gameplay Effect to change values
-		if (const auto AttributeSet = Cast<UAuraAttributeSet>(ASC->GetAttributeSet(UAuraAttributeSet::StaticClass())))
-		{
-			const auto MutableSet = const_cast<UAuraAttributeSet*>(AttributeSet);
-			if (IsHealth)
-			{
-				const auto OldValue = MutableSet->GetHealth();
-				MutableSet->SetHealth(OldValue + 10.0f);
-			}
-			else
-			{
-				const auto OldValue = MutableSet->GetMana();
-				MutableSet->SetMana(OldValue + 10.0f);
-			}
-			Destroy();
-		}
-	}
-}
+		auto Context = ASC->MakeEffectContext();
+		Context.AddSourceObject(this);
 
-void AAuraEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
+		const auto Spec = ASC->MakeOutgoingSpec(EffectClass, 1.0f, Context);
+		ASC->ApplyGameplayEffectSpecToSelf(*Spec.Data);
+	}
 }

@@ -68,15 +68,14 @@ void AAuraCharacter::InitAbilityInfo()
 	AbilitySystemComponent = State->GetAbilitySystemComponent();
 	AbilitySystemComponent->InitAbilityActorInfo(State, this);
 	AttributeSet = State->GetAttributeSet();
-	//
-	// if (const auto PC = GetController<AAuraPlayerController>())
-	// {
-	// 	if (const auto HUD = PC->GetHUD<AAuraHUD>())
-	// 	{
-	// 		const auto OverlayController = HUD->GetOverlayController();
-	// 		UE_LOG(LogTemp, Warning, TEXT("Get OverlayController: %p"), OverlayController);
-	// 	}
-	// }
+
+	if (const auto PC = GetController<AAuraPlayerController>())
+	{
+		if (const auto HUD = PC->GetHUD<AAuraHUD>())
+		{
+			HUD->InitOverlayWidget();
+		}
+	}
 }
 
 // Called every frame

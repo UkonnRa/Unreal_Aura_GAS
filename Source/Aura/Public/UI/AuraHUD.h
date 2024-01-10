@@ -30,10 +30,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UAuraWidgetController> OverlayWidgetControllerClass;
 
-protected:
-	virtual void BeginPlay() override;
-
 public:
+	void InitOverlayWidget();
+
 	UFUNCTION(BlueprintCallable)
 	UAuraOverlayWidgetController* GetOverlayController();
 

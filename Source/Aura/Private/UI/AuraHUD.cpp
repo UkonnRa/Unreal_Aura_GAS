@@ -11,11 +11,9 @@
 #include "UI/AuraOverlayWidgetController.h"
 #include "UI/Widget/AuraUserWidget.h"
 
-void AAuraHUD::BeginPlay()
+void AAuraHUD::InitOverlayWidget()
 {
-	Super::BeginPlay();
-
-	if (const auto World = GetWorld())
+	if (const auto World = GetWorld(); World && OverlayWidget == nullptr)
 	{
 		OverlayWidget = CreateWidget<UAuraUserWidget>(World, OverlayWidgetClass);
 		InitOverlayController();
@@ -36,17 +34,21 @@ UAuraOverlayWidgetController* AAuraHUD::GetOverlayController()
 void AAuraHUD::InitOverlayController()
 {
 	checkf(OverlayWidgetControllerClass != nullptr, TEXT("OverlayWidgetControllerClass is not assigned in HUD BP"));
-	OverlayWidgetController = NewObject<UAuraOverlayWidgetController>(this, OverlayWidgetControllerClass);
 
 	if (const auto Player = Cast<AAuraCharacter>(GetOwningPawn()))
 	{
 		const auto PlayerController = Cast<AAuraPlayerController>(Player->GetController());
 		const auto PlayerState = Cast<AAuraPlayerState>(Player->GetPlayerState());
+		if (!PlayerController || !PlayerState)
+		{
+			return;
+		}
+
 		const auto Component = Cast<UAuraAbilitySystemComponent>(PlayerState->GetAbilitySystemComponent());
 
-		if (const auto AttributeSet = PlayerState->GetAttributeSet(); PlayerController && PlayerState && Component &&
-			AttributeSet)
+		if (const auto AttributeSet = PlayerState->GetAttributeSet(); Component && AttributeSet)
 		{
+			OverlayWidgetController = NewObject<UAuraOverlayWidgetController>(this, OverlayWidgetControllerClass);
 			OverlayWidgetController->SetParams({
 				PlayerController,
 				PlayerState,
