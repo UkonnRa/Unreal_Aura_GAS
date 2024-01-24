@@ -29,6 +29,24 @@ void AAuraEffectActor::ApplyEffect(AActor* TargetActor, const TSubclassOf<UGamep
 		Context.AddSourceObject(this);
 
 		const auto Spec = ASC->MakeOutgoingSpec(EffectClass, 1.0f, Context);
-		ASC->ApplyGameplayEffectSpecToSelf(*Spec.Data);
+		const auto Handle = ASC->ApplyGameplayEffectSpecToSelf(*Spec.Data);
+		if (Spec.Data.Get()->Def->DurationPolicy == EGameplayEffectDurationType::Infinite)
+		{
+			InfiniteTargetASCs.Add(Handle, ASC);
+		}
+	}
+}
+
+void AAuraEffectActor::RemoveEffect(AActor* TargetActor)
+{
+	if (const auto ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
+	{
+		for (const auto Entry : InfiniteTargetASCs)
+		{
+			if (Entry.Value == ASC)
+			{
+				ASC->RemoveActiveGameplayEffect(Entry.Key);
+			}
+		}
 	}
 }

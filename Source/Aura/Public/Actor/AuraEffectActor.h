@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayEffectTypes.h"
 #include "AuraEffectActor.generated.h"
 
 class UGameplayEffect;
@@ -23,6 +24,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Applied Effects")
 	TSubclassOf<UGameplayEffect> InstantEffectClass;
 
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> InfiniteTargetASCs;
+
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffect(AActor* TargetActor, TSubclassOf<UGameplayEffect> EffectClass);
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveEffect(AActor* TargetActor);
 };
