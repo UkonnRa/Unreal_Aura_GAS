@@ -25,6 +25,8 @@ public:
 	// Sets default values for this character's properties
 	AAuraCharacter();
 
+	virtual int32 GetPlayerLevel() override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

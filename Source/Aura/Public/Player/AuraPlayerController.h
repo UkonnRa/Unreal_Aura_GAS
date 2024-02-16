@@ -25,9 +25,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category=Input)
 	TObjectPtr<UInputAction> MoveAction;
 
-	TObjectPtr<IHighlightInterface> LastHitActor;
+	IHighlightInterface* LastHitActor;
 
-	TObjectPtr<IHighlightInterface> CurrentHitActor;
+	IHighlightInterface* CurrentHitActor;
 
 public:
 	AAuraPlayerController();

@@ -45,6 +45,15 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationYaw = false;
 }
 
+int32 AAuraCharacter::GetPlayerLevel()
+{
+	if (const auto PS = GetPlayerState<AAuraPlayerState>())
+	{
+		return PS->GetPlayerLevel();
+	}
+	return 0;
+}
+
 // Called when the game starts or when spawned
 void AAuraCharacter::BeginPlay()
 {

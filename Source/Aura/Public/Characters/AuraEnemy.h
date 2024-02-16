@@ -16,10 +16,15 @@ protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
 	bool bIsHighlighting;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Default")
+	int32 Level = 1;
+
 public:
 	// Sets default values for this character's properties
 	AAuraEnemy();
-
+	
+	virtual int32 GetPlayerLevel() override;
+	
 protected:
 	virtual void BeginPlay() override;
 

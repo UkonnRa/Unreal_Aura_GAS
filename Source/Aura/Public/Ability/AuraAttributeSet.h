@@ -129,7 +129,7 @@ protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Secondary",
 		ReplicatedUsing=OnRep_CriticalHitChance)
 	FGameplayAttributeData CriticalHitChance;
-	
+
 	// 5 + 1.5 * ArmorPenetration
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Secondary",
 		ReplicatedUsing=OnRep_CriticalHitDamage)
