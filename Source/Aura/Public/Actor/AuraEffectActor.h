@@ -24,6 +24,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Applied Effects")
 	TSubclassOf<UGameplayEffect> InstantEffectClass;
 
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Applied Effects")
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> InfiniteTargetASCs;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effects")

@@ -30,6 +30,15 @@ void UAuraOverlayWidgetController::BindAttributeCallbacks()
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Set->GetMaxManaAttribute())
 		                      .AddUObject(this, &UAuraOverlayWidgetController::OnMaxManaAttributeChanged);
 	}
+
+	AbilitySystemComponent->AssetTags.AddLambda([](const auto AssetTags)
+	{
+		for (const auto Tag : AssetTags)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Blue,
+			                                 FString::Printf(TEXT("GE Tag: %ls"), *Tag.ToString()));
+		}
+	});
 }
 
 void UAuraOverlayWidgetController::OnHealthAttributeChanged(const FOnAttributeChangeData& Data) const
