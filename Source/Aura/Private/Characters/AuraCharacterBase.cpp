@@ -33,12 +33,18 @@ UAttributeSet* AAuraCharacterBase::GetAttributeSet() const
 	return AttributeSet;
 }
 
-void AAuraCharacterBase::InitializePrimaryAttributes() const
+void AAuraCharacterBase::InitializeAttributes() const
 {
-	if (const auto ASC = GetAbilitySystemComponent(); IsValid(DefaultPrimaryEffectClass))
+	InitializeAttributeEffect(DefaultPrimaryEffectClass);
+	InitializeAttributeEffect(DefaultSecondaryEffectClass);
+}
+
+void AAuraCharacterBase::InitializeAttributeEffect(const TSubclassOf<UGameplayEffect> EffectClass) const
+{
+	if (const auto ASC = GetAbilitySystemComponent(); IsValid(EffectClass))
 	{
 		const auto ContextHandle = ASC->MakeEffectContext();
-		const auto SpecHandle = ASC->MakeOutgoingSpec(DefaultPrimaryEffectClass, 1.0f, ContextHandle);
+		const auto SpecHandle = ASC->MakeOutgoingSpec(EffectClass, 1.0f, ContextHandle);
 		GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), ASC);
 	}
 }

@@ -83,7 +83,7 @@ void AAuraCharacter::InitAbilityInfo()
 		}
 	}
 
-	InitializePrimaryAttributes();
+	InitializeAttributes();
 }
 
 // Called every frame
