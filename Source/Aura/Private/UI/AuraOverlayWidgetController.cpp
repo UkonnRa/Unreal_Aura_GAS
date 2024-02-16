@@ -22,13 +22,25 @@ void UAuraOverlayWidgetController::BindAttributeCallbacks()
 	if (const auto Set = Cast<UAuraAttributeSet>(AttributeSet))
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Set->GetHealthAttribute())
-		                      .AddUObject(this, &UAuraOverlayWidgetController::OnHealthAttributeChanged);
+		                      .AddLambda([this](const FOnAttributeChangeData& Data)
+		                      {
+			                      OnHealthChanged.Broadcast(Data.NewValue);
+		                      });
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Set->GetMaxHealthAttribute())
-		                      .AddUObject(this, &UAuraOverlayWidgetController::OnMaxHealthAttributeChanged);
+		                      .AddLambda([this](const FOnAttributeChangeData& Data)
+		                      {
+			                      OnMaxHealthChanged.Broadcast(Data.NewValue);
+		                      });
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Set->GetManaAttribute())
-		                      .AddUObject(this, &UAuraOverlayWidgetController::OnManaAttributeChanged);
+		                      .AddLambda([this](const FOnAttributeChangeData& Data)
+		                      {
+			                      OnManaChanged.Broadcast(Data.NewValue);
+		                      });
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Set->GetMaxManaAttribute())
-		                      .AddUObject(this, &UAuraOverlayWidgetController::OnMaxManaAttributeChanged);
+		                      .AddLambda([this](const FOnAttributeChangeData& Data)
+		                      {
+			                      OnMaxManaChanged.Broadcast(Data.NewValue);
+		                      });
 	}
 
 	AbilitySystemComponent->AssetTags.AddLambda([this](const auto AssetTags)
@@ -43,26 +55,6 @@ void UAuraOverlayWidgetController::BindAttributeCallbacks()
 			}
 		}
 	});
-}
-
-void UAuraOverlayWidgetController::OnHealthAttributeChanged(const FOnAttributeChangeData& Data) const
-{
-	OnHealthChanged.Broadcast(Data.NewValue);
-}
-
-void UAuraOverlayWidgetController::OnMaxHealthAttributeChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxHealthChanged.Broadcast(Data.NewValue);
-}
-
-void UAuraOverlayWidgetController::OnManaAttributeChanged(const FOnAttributeChangeData& Data) const
-{
-	OnManaChanged.Broadcast(Data.NewValue);
-}
-
-void UAuraOverlayWidgetController::OnMaxManaAttributeChanged(const FOnAttributeChangeData& Data) const
-{
-	OnMaxManaChanged.Broadcast(Data.NewValue);
 }
 
 template <typename T>
