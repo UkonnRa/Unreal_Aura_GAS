@@ -84,6 +84,9 @@ class AURA_API UAuraAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 
 protected:
+	/**
+	 * Basic Attributes
+	 */
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Basic", ReplicatedUsing=OnRep_Health)
 	FGameplayAttributeData Health;
 
@@ -96,12 +99,33 @@ protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Basic", ReplicatedUsing=OnRep_MaxMana)
 	FGameplayAttributeData MaxMana;
 
+	/**
+	 * Primary Attributes
+	 */
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Primary", ReplicatedUsing=OnRep_Strength)
+	FGameplayAttributeData Strength;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Primary", ReplicatedUsing=OnRep_Intelligence)
+	FGameplayAttributeData Intelligence;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Primary", ReplicatedUsing=OnRep_Resilience)
+	FGameplayAttributeData Resilience;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Abilities|Primary", ReplicatedUsing=OnRep_Vigor)
+	FGameplayAttributeData Vigor;
+
 public:
 	UAuraAttributeSet();
+
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxHealth);
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, MaxMana);
+
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Strength);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Intelligence);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Resilience);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
 
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -124,4 +148,16 @@ private:
 
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const;
+
+	UFUNCTION()
+	void OnRep_Strength(const FGameplayAttributeData& OldValue) const;
+
+	UFUNCTION()
+	void OnRep_Intelligence(const FGameplayAttributeData& OldValue) const;
+
+	UFUNCTION()
+	void OnRep_Resilience(const FGameplayAttributeData& OldValue) const;
+
+	UFUNCTION()
+	void OnRep_Vigor(const FGameplayAttributeData& OldValue) const;
 };
