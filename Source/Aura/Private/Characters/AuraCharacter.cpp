@@ -82,6 +82,8 @@ void AAuraCharacter::InitAbilityInfo()
 			HUD->InitOverlayWidget();
 		}
 	}
+
+	InitializePrimaryAttributes();
 }
 
 // Called every frame
