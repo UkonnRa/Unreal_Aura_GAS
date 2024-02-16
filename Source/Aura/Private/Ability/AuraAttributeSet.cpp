@@ -4,6 +4,7 @@
 #include "Ability/AuraAttributeSet.h"
 
 #include "AbilitySystemComponent.h"
+#include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
@@ -23,6 +24,39 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+}
+
+void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+{
+	Super::PreAttributeChange(Attribute, NewValue);
+
+	if (Attribute == GetHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
+	}
+	else if (Attribute == GetManaAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
+	}
+}
+
+void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	EffectProperties = FEffectProperties(Data);
+
+	UE_LOG(LogTemp, Warning, TEXT("Effect Properties: %s"), *EffectProperties.EffectContextHandle.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("  Target ASC: %s"), *EffectProperties.TargetASC.GetName());
+	UE_LOG(LogTemp, Warning, TEXT("  Target Avatar Name: %s"), *EffectProperties.TargetAvatarActor.GetName());
+	UE_LOG(LogTemp, Warning, TEXT("  Target Controller: %s"), *EffectProperties.TargetController.GetName());
+	UE_LOG(LogTemp, Warning, TEXT("  Target Avatar Actor: %s"), *EffectProperties.TargetAvatarActor.GetName());
+
+	UE_LOG(LogTemp, Warning, TEXT("=== ==="));
+	UE_LOG(LogTemp, Warning, TEXT("  Source ASC: %s"), *EffectProperties.SourceASC.GetName());
+	UE_LOG(LogTemp, Warning, TEXT("  Source Avatar Name: %s"), *EffectProperties.SourceAvatarActor.GetName());
+	UE_LOG(LogTemp, Warning, TEXT("  Source Controller: %s"), *EffectProperties.SourceController.GetName());
+	UE_LOG(LogTemp, Warning, TEXT("  Source Avatar Actor: %s"), *EffectProperties.SourceAvatarActor.GetName());
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

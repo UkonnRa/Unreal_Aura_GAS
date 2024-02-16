@@ -41,12 +41,19 @@ void AAuraEffectActor::RemoveEffect(AActor* TargetActor)
 {
 	if (const auto ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
 	{
+		TArray<FActiveGameplayEffectHandle> HandlesToRemove;
 		for (const auto Entry : InfiniteTargetASCs)
 		{
 			if (Entry.Value == ASC)
 			{
 				ASC->RemoveActiveGameplayEffect(Entry.Key);
+				HandlesToRemove.Add(Entry.Key);
 			}
+		}
+
+		for (const auto Handle : HandlesToRemove)
+		{
+			InfiniteTargetASCs.FindAndRemoveChecked(Handle);
 		}
 	}
 }
