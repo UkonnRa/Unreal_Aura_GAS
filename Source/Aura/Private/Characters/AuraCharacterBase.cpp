@@ -37,13 +37,15 @@ void AAuraCharacterBase::InitializeAttributes() const
 {
 	InitializeAttributeEffect(DefaultPrimaryEffectClass);
 	InitializeAttributeEffect(DefaultSecondaryEffectClass);
+	InitializeAttributeEffect(DefaultBasicEffectClass);
 }
 
 void AAuraCharacterBase::InitializeAttributeEffect(const TSubclassOf<UGameplayEffect> EffectClass) const
 {
 	if (const auto ASC = GetAbilitySystemComponent(); IsValid(EffectClass))
 	{
-		const auto ContextHandle = ASC->MakeEffectContext();
+		auto ContextHandle = ASC->MakeEffectContext();
+		ContextHandle.AddSourceObject(this);
 		const auto SpecHandle = ASC->MakeOutgoingSpec(EffectClass, 1.0f, ContextHandle);
 		GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), ASC);
 	}

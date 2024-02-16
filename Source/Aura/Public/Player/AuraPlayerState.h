@@ -25,8 +25,8 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 private:
-	UPROPERTY(VisibleAnywhere, ReplicatedUsing=OnRep_Level)
-	int32 Level = 1;
+	UPROPERTY(EditAnywhere, ReplicatedUsing=OnRep_PlayerLevel)
+	int32 PlayerLevel = 1;
 
 public:
 	AAuraPlayerState();
@@ -39,10 +39,10 @@ public:
 
 	FORCEINLINE int32 GetPlayerLevel() const
 	{
-		return Level;
+		return PlayerLevel;
 	}
 
 private:
 	UFUNCTION()
-	void OnRep_Level(int32 OldValue);
+	void OnRep_PlayerLevel(int32 OldValue);
 };
