@@ -31,12 +31,16 @@ void UAuraOverlayWidgetController::BindAttributeCallbacks()
 		                      .AddUObject(this, &UAuraOverlayWidgetController::OnMaxManaAttributeChanged);
 	}
 
-	AbilitySystemComponent->AssetTags.AddLambda([](const auto AssetTags)
+	AbilitySystemComponent->AssetTags.AddLambda([this](const auto AssetTags)
 	{
-		for (const auto Tag : AssetTags)
+		const auto MessagesTag = FGameplayTag::RequestGameplayTag(FName("Messages"), true);
+		for (const FGameplayTag& Tag : AssetTags)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 8.0f, FColor::Blue,
-			                                 FString::Printf(TEXT("GE Tag: %ls"), *Tag.ToString()));
+			if (Tag.MatchesTag(MessagesTag))
+			{
+				const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				MessageWidgetRowDelegate.Broadcast(*Row);
+			}
 		}
 	});
 }
@@ -59,4 +63,10 @@ void UAuraOverlayWidgetController::OnManaAttributeChanged(const FOnAttributeChan
 void UAuraOverlayWidgetController::OnMaxManaAttributeChanged(const FOnAttributeChangeData& Data) const
 {
 	OnMaxManaChanged.Broadcast(Data.NewValue);
+}
+
+template <typename T>
+T* UAuraOverlayWidgetController::GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag)
+{
+	return DataTable->FindRow<T>(Tag.GetTagName(), TEXT(""));
 }

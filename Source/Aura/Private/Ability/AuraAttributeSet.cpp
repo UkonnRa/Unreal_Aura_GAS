@@ -4,7 +4,6 @@
 #include "Ability/AuraAttributeSet.h"
 
 #include "AbilitySystemComponent.h"
-#include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
@@ -45,18 +44,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	Super::PostGameplayEffectExecute(Data);
 
 	EffectProperties = FEffectProperties(Data);
-
-	UE_LOG(LogTemp, Warning, TEXT("Effect Properties: %s"), *EffectProperties.EffectContextHandle.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("  Target ASC: %s"), *EffectProperties.TargetASC.GetName());
-	UE_LOG(LogTemp, Warning, TEXT("  Target Avatar Name: %s"), *EffectProperties.TargetAvatarActor.GetName());
-	UE_LOG(LogTemp, Warning, TEXT("  Target Controller: %s"), *EffectProperties.TargetController.GetName());
-	UE_LOG(LogTemp, Warning, TEXT("  Target Avatar Actor: %s"), *EffectProperties.TargetAvatarActor.GetName());
-
-	UE_LOG(LogTemp, Warning, TEXT("=== ==="));
-	UE_LOG(LogTemp, Warning, TEXT("  Source ASC: %s"), *EffectProperties.SourceASC.GetName());
-	UE_LOG(LogTemp, Warning, TEXT("  Source Avatar Name: %s"), *EffectProperties.SourceAvatarActor.GetName());
-	UE_LOG(LogTemp, Warning, TEXT("  Source Controller: %s"), *EffectProperties.SourceController.GetName());
-	UE_LOG(LogTemp, Warning, TEXT("  Source Avatar Actor: %s"), *EffectProperties.SourceAvatarActor.GetName());
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
