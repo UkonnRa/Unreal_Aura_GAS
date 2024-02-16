@@ -26,4 +26,6 @@ protected:
 	virtual void Highlight() override;
 
 	virtual void UnHighlight() override;
+
+	virtual void InitAbilityInfo() override;
 };

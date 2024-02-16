@@ -33,7 +33,7 @@ protected:
 
 	virtual void OnRep_PlayerState() override;
 
-	void InitAbilityInfo();
+	virtual void InitAbilityInfo() override;
 
 public:
 	// Called every frame

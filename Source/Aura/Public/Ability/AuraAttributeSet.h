@@ -112,7 +112,7 @@ protected:
 
 private:
 	FEffectProperties EffectProperties;
-	
+
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
 

@@ -4,6 +4,7 @@
 #include "Characters/AuraCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "Ability/AuraAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -67,6 +68,11 @@ void AAuraCharacter::InitAbilityInfo()
 	const auto State = GetPlayerStateChecked<AAuraPlayerState>();
 	AbilitySystemComponent = State->GetAbilitySystemComponent();
 	AbilitySystemComponent->InitAbilityActorInfo(State, this);
+	if (const auto ASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		ASC->AbilityActorInfoSet();
+	}
+
 	AttributeSet = State->GetAttributeSet();
 
 	if (const auto PC = GetController<AAuraPlayerController>())

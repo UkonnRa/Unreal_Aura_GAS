@@ -23,7 +23,7 @@ AAuraEnemy::AAuraEnemy()
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	InitAbilityInfo();
 }
 
 void AAuraEnemy::Highlight()
@@ -46,4 +46,13 @@ void AAuraEnemy::UnHighlight()
 
 	GetMesh()->SetRenderCustomDepth(false);
 	GetMesh()->SetCustomDepthStencilValue(0);
+}
+
+void AAuraEnemy::InitAbilityInfo()
+{
+	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	if (const auto ASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		ASC->AbilityActorInfoSet();
+	}
 }

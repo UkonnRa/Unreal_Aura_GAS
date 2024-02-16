@@ -34,5 +34,7 @@ protected:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
+	virtual void InitAbilityInfo();
+
 	UAttributeSet* GetAttributeSet() const;
 };
