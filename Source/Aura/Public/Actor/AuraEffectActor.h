@@ -26,6 +26,9 @@ protected:
 
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> InfiniteTargetASCs;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effects")
+	float ActorLevel = 1.0f;
+
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffect(AActor* TargetActor, TSubclassOf<UGameplayEffect> EffectClass);
 

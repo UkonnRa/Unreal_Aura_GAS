@@ -28,7 +28,7 @@ void AAuraEffectActor::ApplyEffect(AActor* TargetActor, const TSubclassOf<UGamep
 		auto Context = ASC->MakeEffectContext();
 		Context.AddSourceObject(this);
 
-		const auto Spec = ASC->MakeOutgoingSpec(EffectClass, 1.0f, Context);
+		const auto Spec = ASC->MakeOutgoingSpec(EffectClass, ActorLevel, Context);
 		const auto Handle = ASC->ApplyGameplayEffectSpecToSelf(*Spec.Data);
 		if (Spec.Data.Get()->Def->DurationPolicy == EGameplayEffectDurationType::Infinite)
 		{
